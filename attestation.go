@@ -21,7 +21,6 @@ import (
 // wrapped with it.
 var ErrInvalid = errors.New("appattest: invalid")
 
-// Specific reasons, all wrapped together with ErrInvalid.
 var (
 	// ErrMalformed: not valid CBOR, or a field is missing or the wrong size.
 	ErrMalformed = errors.New("malformed")
@@ -46,10 +45,8 @@ func invalid(reason error, format string, args ...any) error {
 // AppleRoots returns a pool holding Apple's App Attestation Root CA.
 func AppleRoots() *x509.CertPool { return apple.Roots() }
 
-// nonceOID is the credential certificate extension that holds the nonce.
 var nonceOID = asn1.ObjectIdentifier{1, 2, 840, 113635, 100, 8, 2}
 
-// AAGUIDs of the two App Attest environments.
 const (
 	aaguidProduction  = "appattest\x00\x00\x00\x00\x00\x00\x00"
 	aaguidDevelopment = "appattestdevelop"
@@ -58,8 +55,8 @@ const (
 // Environment is the App Attest environment a key was made in.
 type Environment string
 
-// The two environments. Development keys come from builds with the
-// development App Attest entitlement and should be kept apart.
+// Development keys come from builds with the development App Attest
+// entitlement, so keep them apart from production ones.
 const (
 	Production  Environment = "production"
 	Development Environment = "development"
@@ -71,8 +68,7 @@ type Attestation struct {
 	// 0, to verify the app's assertions.
 	PublicKey *ecdsa.PublicKey
 	// AppID is the team ID + bundle ID the key was made for.
-	AppID string
-	// Environment is where the key was made.
+	AppID       string
 	Environment Environment
 	// Receipt is Apple's receipt, for fraud metric requests.
 	Receipt []byte

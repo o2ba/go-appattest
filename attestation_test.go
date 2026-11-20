@@ -277,8 +277,6 @@ func (a *fakeApple) verifier() *Verifier {
 	return &Verifier{AppIDs: []string{testAppID, testAppID + ".dev"}, Roots: a.roots, Now: func() time.Time { return testNow }}
 }
 
-// FuzzVerifyAttestation checks that no input panics, and that anything
-// rejected wraps ErrInvalid.
 func FuzzVerifyAttestation(f *testing.F) {
 	apple := newFakeApple(f)
 	priv := newKeyPair(f)
