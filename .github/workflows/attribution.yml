@@ -1,0 +1,28 @@
+name: Attribution
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Commits
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          bad=$(git log --format='%an <%ae>%n%B' "$BASE..$HEAD" | grep -Ei 'co-authored-by: claude|claude-session|noreply@anthropic\.com|generated (with|by) \[?claude' || true)
+          if [ -n "$bad" ]; then echo "$bad"; exit 1; fi
+      - name: Description
+        env:
+          BODY: ${{ github.event.pull_request.body }}
+        run: |
+          if printf '%s' "$BODY" | grep -Eqi 'generated (with|by) \[?claude|claude\.ai/code/session'; then exit 1; fi
