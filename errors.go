@@ -21,10 +21,13 @@ var (
 	ErrKeyID = errors.New("key id mismatch")
 	// ErrAppID: the authenticator data is for another app ID.
 	ErrAppID = errors.New("app id mismatch")
-	// ErrCounter: the attestation's counter isn't 0.
+	// ErrCounter: an attestation's counter isn't 0, or an assertion's
+	// counter didn't go up.
 	ErrCounter = errors.New("counter")
 	// ErrEnvironment: the AAGUID is neither production nor development.
 	ErrEnvironment = errors.New("unknown environment")
+	// ErrSignature: the assertion's signature doesn't verify.
+	ErrSignature = errors.New("signature")
 )
 
 func invalid(reason error, format string, args ...any) error {

@@ -28,8 +28,7 @@ const (
 // Environment is the App Attest environment a key was made in.
 type Environment string
 
-// Development keys come from builds with the development App Attest
-// entitlement, so keep them apart from production ones.
+// Development keys come from builds with the development App Attest entitlement.
 const (
 	Production  Environment = "production"
 	Development Environment = "development"

@@ -28,6 +28,7 @@ jobs:
       - name: Fuzz
         run: |
           go test -run='^$' -fuzz=FuzzVerifyAttestation -fuzztime=30s .
+          go test -run='^$' -fuzz=FuzzVerifyAssertion -fuzztime=30s .
           go test -run='^$' -fuzz=FuzzParse -fuzztime=30s ./internal/authdata
 
   lint:
